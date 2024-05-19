@@ -85,6 +85,7 @@ export class SettingTab extends PluginSettingTab {
 						this.plugin.settings.targetPropertyValues = 
 							this.plugin.settings.targetPropertyValues.filter((ele) => targetPropertyValue == ele);
 						containerEl.removeChild(setting.settingEl);
+						this.plugin.saveSettings();
           }),
       )
     return setting;
