@@ -1,12 +1,7 @@
 import { App, Editor, MarkdownView, Modal, Notice, Plugin, PluginSettingTab, Setting } from 'obsidian';
+import { SettingTab } from 'setting-tabs';
+import { UnnotedReasonMemoSettings, SETTINGS } from 'setting';
 
-interface UnnotedReasonMemoSettings {
-	mySetting: string;
-}
-
-const DEFAULT_SETTINGS: UnnotedReasonMemoSettings = {
-	mySetting: 'default'
-}
 
 export default class UnnotedReasonMemo extends Plugin {
 	settings: UnnotedReasonMemoSettings;
@@ -43,7 +38,7 @@ export default class UnnotedReasonMemo extends Plugin {
 			}
 		});
 
-		
+
 		this.addCommand({
 			id: 'open-sample-modal-complex',
 			name: 'Open sample modal (complex)',
@@ -58,7 +53,7 @@ export default class UnnotedReasonMemo extends Plugin {
 			}
 		});
 
-		this.addSettingTab(new SampleSettingTab(this.app, this));
+		this.addSettingTab(new SettingTab(this.app, this));
 
 
 		this.registerDomEvent(document, 'click', (evt: MouseEvent) => {
@@ -73,7 +68,7 @@ export default class UnnotedReasonMemo extends Plugin {
 	}
 
 	async loadSettings() {
-		this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());
+		this.settings = Object.assign({}, SETTINGS, await this.loadData());
 	}
 
 	async saveSettings() {
@@ -94,31 +89,5 @@ class SampleModal extends Modal {
 	onClose() {
 		const {contentEl} = this;
 		contentEl.empty();
-	}
-}
-
-class SampleSettingTab extends PluginSettingTab {
-	plugin: UnnotedReasonMemo;
-
-	constructor(app: App, plugin: UnnotedReasonMemo) {
-		super(app, plugin);
-		this.plugin = plugin;
-	}
-
-	display(): void {
-		const {containerEl} = this;
-
-		containerEl.empty();
-
-		new Setting(containerEl)
-			.setName('Setting #1')
-			.setDesc('It\'s a secret')
-			.addText(text => text
-				.setPlaceholder('Enter your secret')
-				.setValue(this.plugin.settings.mySetting)
-				.onChange(async (value) => {
-					this.plugin.settings.mySetting = value;
-					await this.plugin.saveSettings();
-				}));
 	}
 }
