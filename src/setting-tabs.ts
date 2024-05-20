@@ -82,10 +82,10 @@ export class SettingTab extends PluginSettingTab {
           .setTooltip("delete")
           .setWarning()
           .onClick(() => {
-						this.plugin.settings.targetPropertyValues = 
-							this.plugin.settings.targetPropertyValues.filter((ele) => targetPropertyValue == ele);
-						containerEl.removeChild(setting.settingEl);
-						this.plugin.saveSettings();
+			this.plugin.settings.targetPropertyValues = 
+				this.plugin.settings.targetPropertyValues.filter((ele) => targetPropertyValue == ele);
+			containerEl.removeChild(setting.settingEl);
+			this.plugin.saveSettings();
           }),
       )
     return setting;
