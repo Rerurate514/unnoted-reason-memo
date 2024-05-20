@@ -1,19 +1,23 @@
-import { App, Editor, MarkdownView, Modal, Notice, Plugin, PluginSettingTab, Setting } from 'obsidian';
+import { App, Editor, MarkdownView, Modal, Notice, Plugin, PluginManifest, WorkspaceLeaf } from 'obsidian';
 import { SettingTab } from 'setting-tabs';
 import { UnnotedReasonMemoSettings, SETTINGS } from 'setting';
+import { URMView, VIEW_TYPE_URM_DEFAULLT } from "./ui/components/example";
 
 
 export default class UnnotedReasonMemo extends Plugin {
 	settings: UnnotedReasonMemoSettings;
 
+	constructor(app: App, manifest: PluginManifest) {
+		super(app, manifest);
+}
+
 	async onload() {
 		await this.loadSettings();
 
-
-		const ribbonIconEl = this.addRibbonIcon('dice', 'Sample Plugin', (evt: MouseEvent) => {
-			new Notice('This is a notice!');
-		});
-		ribbonIconEl.addClass('my-plugin-ribbon-class');
+		this.registerView(
+			VIEW_TYPE_URM_DEFAULLT,
+			(leaf) => new URMView(leaf)
+		);
 
 
 		const statusBarItemEl = this.addStatusBarItem();
@@ -21,37 +25,14 @@ export default class UnnotedReasonMemo extends Plugin {
 
 
 		this.addCommand({
-			id: 'open-sample-modal-simple',
-			name: 'Open sample modal (simple)',
+			id: 'react-sample',
+			name: 'react サンプル',
 			callback: () => {
-				new SampleModal(this.app).open();
+				this.activateView();
 			}
 		});
 
-
-		this.addCommand({
-			id: 'sample-editor-command',
-			name: 'Sample editor command',
-			editorCallback: (editor: Editor, view: MarkdownView) => {
-				console.log(editor.getSelection());
-				editor.replaceSelection('Sample Editor Command');
-			}
-		});
-
-
-		this.addCommand({
-			id: 'open-sample-modal-complex',
-			name: 'Open sample modal (complex)',
-			checkCallback: (checking: boolean) => {
-				const markdownView = this.app.workspace.getActiveViewOfType(MarkdownView);
-				if (markdownView) {
-					if (!checking) {
-						new SampleModal(this.app).open();
-					}
-					return true;
-				}
-			}
-		});
+		this.addRibbonIcon("dice", "Activate view", () => { this.activateView(); });
 
 		this.addSettingTab(new SettingTab(this.app, this));
 
@@ -61,6 +42,22 @@ export default class UnnotedReasonMemo extends Plugin {
 		});
 
 		this.registerInterval(window.setInterval(() => console.log('setInterval'), 5 * 60 * 1000));
+	}
+
+	async activateView() {
+		const { workspace } = this.app;
+	
+		let leaf: WorkspaceLeaf | null = null;
+		const leaves = workspace.getLeavesOfType(VIEW_TYPE_URM_DEFAULLT);
+	
+		if (leaves.length > 0) {
+		  leaf = leaves[0];
+		} else {
+		  leaf = workspace.getRightLeaf(false);
+		  await leaf!.setViewState({ type: VIEW_TYPE_URM_DEFAULLT, active: true });
+		}
+	
+		workspace.revealLeaf(leaf!);
 	}
 
 	onunload() {
@@ -76,18 +73,3 @@ export default class UnnotedReasonMemo extends Plugin {
 	}
 }
 
-class SampleModal extends Modal {
-	constructor(app: App) {
-		super(app);
-	}
-
-	onOpen() {
-		const {contentEl} = this;
-		contentEl.setText('Woah!');
-	}
-
-	onClose() {
-		const {contentEl} = this;
-		contentEl.empty();
-	}
-}
