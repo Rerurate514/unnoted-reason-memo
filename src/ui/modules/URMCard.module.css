@@ -1,0 +1,7 @@
+.card{
+    width: 256px;
+    height: 512px;
+    border-radius: 100px;
+    background-color: aqua;
+    color: aquamarine;
+}

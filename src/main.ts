@@ -1,10 +1,13 @@
 import { App, Editor, MarkdownView, Modal, Notice, Plugin, PluginManifest, WorkspaceLeaf } from 'obsidian';
 import { SettingTab } from 'setting-tabs';
 import { UnnotedReasonMemoSettings, SETTINGS } from 'setting';
-import { URMView, VIEW_TYPE_URM_DEFAULLT } from "./ui/components/example";
+import { ViewRegister } from "./load/viewRegister";
+import { URMView, VIEW_TYPE_URM_DEFAULLT } from 'ui/ReactView';
 
 
 export default class UnnotedReasonMemo extends Plugin {
+	viewRegister = new ViewRegister();
+
 	settings: UnnotedReasonMemoSettings;
 
 	constructor(app: App, manifest: PluginManifest) {
@@ -14,15 +17,15 @@ export default class UnnotedReasonMemo extends Plugin {
 	async onload() {
 		await this.loadSettings();
 
-		this.registerView(
-			VIEW_TYPE_URM_DEFAULLT,
-			(leaf) => new URMView(leaf)
-		);
-
+		this.viewRegister.registerAllView(this.registerView)
 
 		const statusBarItemEl = this.addStatusBarItem();
 		statusBarItemEl.setText('Status Bar Text');
 
+		this.registerView(
+			VIEW_TYPE_URM_DEFAULLT,
+			(leaf) => new URMView(leaf)
+		);
 
 		this.addCommand({
 			id: 'react-sample',
@@ -61,7 +64,7 @@ export default class UnnotedReasonMemo extends Plugin {
 	}
 
 	onunload() {
-
+		
 	}
 
 	async loadSettings() {
