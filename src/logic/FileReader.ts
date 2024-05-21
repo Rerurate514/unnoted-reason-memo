@@ -12,16 +12,16 @@ export class URMFileReader{
     }
 
     
-    async reloadAllFiles() {
+    async readMatchFiles() {
         let matchedFiles: TFile[] = [];
         for (const file of this.vault.getMarkdownFiles()) {
-            await this.reloadFile(file);
+            await this.readFile(file);
             if(await this.isMatchPropertyValue(file)) continue;
             matchedFiles.push(file);
         }
     }
 
-    private async reloadFile(file: TAbstractFile) {
+    private async readFile(file: TAbstractFile) {
         if (!(file instanceof TFile)) return false;
         if (!this.isMarkdownFile(file)) return false;
     }
