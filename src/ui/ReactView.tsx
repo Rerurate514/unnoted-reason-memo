@@ -1,9 +1,7 @@
 import { StrictMode } from "react";
 import { ItemView, WorkspaceLeaf } from "obsidian";
 import { Root, createRoot } from "react-dom/client";
-import { ReactView } from "./components/example";
 import { URMCard } from "./components/urmCard";
-
 
 export const VIEW_TYPE_URM_DEFAULLT = "urm-default-view";
 
@@ -28,7 +26,7 @@ export class URMView extends ItemView {
 			<StrictMode>
                 <URMCard contents={{
                     noteTitle: 'My Note Title',
-                    status: 'Active',
+                    status: 'Actived',
                     desc: 'This is a description of my note.'
                 }}/>
             </StrictMode>

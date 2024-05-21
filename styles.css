@@ -1,8 +1,20 @@
-/*
+.urm-card{
+    padding: 16px;
+    margin: auto;
+    border-radius: 16px;
+    width: 256px;
+    height: 256px;
+    font-weight: bold;
+    border: 2px solid transparent;
 
-This CSS file will be included with your plugin, and
-available in the app when your plugin is enabled.
+    background-color: var(--background-secondary-alt);
+    border: 1px solid var(--background-modifier-border);    
 
-If your plugin does not need CSS, delete this file.
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
 
-*/
+.center{
+    text-align: center;
+}
