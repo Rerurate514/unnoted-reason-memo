@@ -1,12 +1,6 @@
 import { useState } from "react";
 
-type URMCARD = {
-    noteTitle: string,
-    status: string,
-    desc: string
-}
-
-export const URMCard = (props: {contents: URMCARD}) => {
+export const URMCard = (props: {contents: UrmCardvalue}) => {
     // const [desc, setDesc] = useState("");
 
     return <div className="urm-card">
