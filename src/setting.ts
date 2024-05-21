@@ -1,9 +1,11 @@
 export interface UnnotedReasonMemoSettings {
 	useProperty: string;
 	targetPropertyValues: string[];
+	urmList: {[noteTitle: string]: UrmCardvalue}[]
 }
 
 export const SETTINGS: UnnotedReasonMemoSettings = {
 	useProperty: '',
-	targetPropertyValues: []
+	targetPropertyValues: [],
+	urmList: []
 }

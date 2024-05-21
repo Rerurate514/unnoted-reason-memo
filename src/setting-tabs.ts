@@ -61,6 +61,7 @@ export class SettingTab extends PluginSettingTab {
 								input?.setValue("");
 
 								this.plugin.settings.targetPropertyValues.push(targetPropertyValue);
+								this.plugin.saveSettings();
 							}),
 						(button = btn)
 					),

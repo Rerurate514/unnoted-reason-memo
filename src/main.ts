@@ -4,6 +4,8 @@ import { UnnotedReasonMemoSettings, SETTINGS } from 'setting';
 import { ViewRegister } from "./load/viewRegister";
 import { URMView, VIEW_TYPE_URM_DEFAULLT } from 'ui/ReactView';
 
+import { URMFileReader } from "logic/FileReader";
+
 
 export default class UnnotedReasonMemo extends Plugin {
 	viewRegister = new ViewRegister();
@@ -17,7 +19,7 @@ export default class UnnotedReasonMemo extends Plugin {
 	async onload() {
 		await this.loadSettings();
 
-		this.viewRegister.registerAllView(this.registerView)
+		//this.viewRegister.registerAllView(this.registerView)
 
 		const statusBarItemEl = this.addStatusBarItem();
 		statusBarItemEl.setText('Status Bar Text');
@@ -27,11 +29,17 @@ export default class UnnotedReasonMemo extends Plugin {
 			(leaf) => new URMView(leaf)
 		);
 
+		const fileReader = new URMFileReader(
+			this.app,
+			this,
+		);
+
+
 		this.addCommand({
 			id: 'react-sample',
 			name: 'react サンプル',
 			callback: () => {
-				this.activateView();
+				fileReader.readMatchFiles();
 			}
 		});
 
