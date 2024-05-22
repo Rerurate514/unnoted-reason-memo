@@ -17,7 +17,7 @@ export class URMFileReader{
         let matchedFiles: TFile[] = [];
         for (const file of this.vault.getMarkdownFiles()) {
             await this.readFile(file);
-            if(await this.isMatchPropertyValue(file)) continue;
+            if(!await this.isMatchPropertyValue(file)) continue;
             matchedFiles.push(file);
         }
         return matchedFiles;
