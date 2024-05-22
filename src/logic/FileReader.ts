@@ -3,22 +3,24 @@ import { TAbstractFile, TFile, Vault, App } from "obsidian";
 
 export class URMFileReader{
     private vault: Vault;
+    private app: App;
 
     constructor(
-        private app: App,
         private plugin: UnnotedReasonMemo,
     ) { 
+        this.app = plugin.app;
         this.vault = this.app.vault;
     }
 
     
-    async readMatchFiles() {
+    async readMatchFiles(): Promise<TFile[]> {
         let matchedFiles: TFile[] = [];
         for (const file of this.vault.getMarkdownFiles()) {
             await this.readFile(file);
             if(await this.isMatchPropertyValue(file)) continue;
             matchedFiles.push(file);
         }
+        return matchedFiles;
     }
 
     private async readFile(file: TAbstractFile) {

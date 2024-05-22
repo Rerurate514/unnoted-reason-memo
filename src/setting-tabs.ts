@@ -54,6 +54,7 @@ export class SettingTab extends PluginSettingTab {
 							.onClick(() => {
 								const targetPropertyValue = input?.getValue();
 								if (!targetPropertyValue) return;
+								if(this.plugin.settings.targetPropertyValues.contains(targetPropertyValue)) return;
 								this.addNewPropertyValueEntry(
 									targetPropertyValue,
 									containerEl,
@@ -84,11 +85,14 @@ export class SettingTab extends PluginSettingTab {
           .setWarning()
           .onClick(() => {
 			this.plugin.settings.targetPropertyValues = 
-				this.plugin.settings.targetPropertyValues.filter((ele) => targetPropertyValue == ele);
+				this.plugin.settings.targetPropertyValues.filter((ele) => targetPropertyValue != ele);
 			containerEl.removeChild(setting.settingEl);
+
 			this.plugin.saveSettings();
           }),
       )
-    return setting;
+
+	this.plugin.saveSettings();
+	return setting;
   }
 }
