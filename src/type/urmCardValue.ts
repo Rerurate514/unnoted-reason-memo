@@ -1,5 +1,5 @@
-type UrmCardvalue = {
+type UrmCardValue = {
     noteTitle: string,
     status: string,
-    desc: string
+    desc: string | null
 }

@@ -2,25 +2,31 @@ import UnnotedReasonMemo from "main";
 import { TFile } from "obsidian";
 
 export class URM{
-    urmList: {[noteTitle: string]: UrmCardvalue}[] = [];
+    urmList: {[noteTitle: string]: UrmCardValue}[] = [];
 
-    constructor(loadedUrmList: {[noteTitle: string]: UrmCardvalue}[]){
+    constructor(private plugin: UnnotedReasonMemo, loadedUrmList: {[noteTitle: string]: UrmCardValue}[]){
         this.load(loadedUrmList);
     }
 
-    load(urmList: {[noteTitle: string]: UrmCardvalue}[]){
+    load(urmList: {[noteTitle: string]: UrmCardValue}[]){
         this.urmList = urmList;
     }
 
-    add(file: TFile, urmCardValue: UrmCardvalue): void{
-        let map: {[noteTitle: string]: UrmCardvalue} = {};
+    add(file: TFile, urmCardValue: UrmCardValue): void{
+        let map: {[noteTitle: string]: UrmCardValue} = {};
         map[file.basename] = urmCardValue;
 
         this.urmList.push(map);
+        this.save();
     }
 
-    save(plugin: UnnotedReasonMemo){
-        plugin.settings.urmList = this.urmList;
-        plugin.saveSettings();
+    save(){
+        this.plugin.settings.urmList = this.urmList;
+        this.plugin.saveSettings();
+    }
+
+    reset(){
+        this.urmList = [];
+        this.save();
     }
 }
