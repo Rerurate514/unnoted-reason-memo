@@ -5,10 +5,12 @@ import { ViewRegister } from "./load/viewRegister";
 import { URMView, VIEW_TYPE_URM_DEFAULLT } from 'ui/ReactView';
 
 import { URMFileReader } from "logic/FileReader";
+import { URM } from 'models/URM';
+import { FileConverter } from 'logic/FileConverter';
 
 
 export default class UnnotedReasonMemo extends Plugin {
-	viewRegister = new ViewRegister();
+	viewRegister = new ViewRegister(this);
 
 	settings: UnnotedReasonMemoSettings;
 
@@ -18,30 +20,42 @@ export default class UnnotedReasonMemo extends Plugin {
 
 	async onload() {
 		await this.loadSettings();
+		const fileReader = new URMFileReader(this);
+		const viewRegister = new ViewRegister(this);
+		const urm: URM = new URM(this, this.settings.urmList);
+		const converter: FileConverter = new FileConverter(this)
+		
+		viewRegister.registerAllView();
 
-		//this.viewRegister.registerAllView(this.registerView)
+		this.addCommand({
+			id: 'files-load',
+			name: 'ファイルをロードする',
+			callback: async () => {
+				let files = await fileReader.readMatchFiles();
+				for(let file of files){
+					urm.add(file, await converter.convertURMCardFromTfile(file));
+				}
+				urm.save();
+			}
+		});
+
+		this.addCommand({
+			id: 'files-reset',
+			name: 'ファイルをリセットする',
+			callback: async () => {
+				urm.reset();
+				let files = await fileReader.readMatchFiles();
+				for(let file of files){
+					urm.add(file, await converter.convertURMCardFromTfile(file));
+				}
+				urm.save();
+			}
+		});
 
 		const statusBarItemEl = this.addStatusBarItem();
 		statusBarItemEl.setText('Status Bar Text');
 
-		this.registerView(
-			VIEW_TYPE_URM_DEFAULLT,
-			(leaf) => new URMView(leaf)
-		);
 
-		const fileReader = new URMFileReader(
-			this.app,
-			this,
-		);
-
-
-		this.addCommand({
-			id: 'react-sample',
-			name: 'react サンプル',
-			callback: () => {
-				fileReader.readMatchFiles();
-			}
-		});
 
 		this.addRibbonIcon("dice", "Activate view", () => { this.activateView(); });
 
