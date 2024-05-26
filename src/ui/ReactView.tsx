@@ -25,7 +25,7 @@ export class URMView extends ItemView {
 		this.root = createRoot(this.containerEl.children[1]);
 		this.root.render(
 			<StrictMode>
-				<URMCardList contents={this.plugin.settings.urmList} />;
+				<URMCardList contents={this.plugin.settings.urmList} />
             </StrictMode>
 		);
 	}
