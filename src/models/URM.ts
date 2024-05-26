@@ -1,32 +1,28 @@
 import UnnotedReasonMemo from "main";
-import { TFile } from "obsidian";
 
 export class URM{
-    urmList: {[noteTitle: string]: UrmCardValue}[] = [];
+    plugin: UnnotedReasonMemo;
 
-    constructor(private plugin: UnnotedReasonMemo, loadedUrmList: {[noteTitle: string]: UrmCardValue}[]){
-        this.load(loadedUrmList);
+    noteTitle: string;
+    status: string;
+    desc: string | null;
+
+    constructor(
+        plugin: UnnotedReasonMemo,
+        private urmCardValue: UrmCardValue
+    ){
+        this.plugin = plugin;
+        this.noteTitle = urmCardValue.noteTitle;
+        this.status = urmCardValue.status;
+        this.desc = urmCardValue.desc;
     }
 
-    load(urmList: {[noteTitle: string]: UrmCardValue}[]){
-        this.urmList = urmList;
-    }
+    private noteTitleMd: string = "## [[" + this.urmCardValue.noteTitle + "]]\n";
+    private statusMd: string = "Status : " + this.urmCardValue.status + "\n";
+    private descMd: string = "Description : " + this.urmCardValue.desc + "\n";
 
-    add(file: TFile, urmCardValue: UrmCardValue): void{
-        let map: {[noteTitle: string]: UrmCardValue} = {};
-        map[file.basename] = urmCardValue;
-
-        this.urmList.push(map);
-        this.save();
-    }
-
-    save(){
-        this.plugin.settings.urmList = this.urmList;
-        this.plugin.saveSettings();
-    }
-
-    reset(){
-        this.urmList = [];
-        this.save();
+    toMarkdown(): string{
+        console.log(this.noteTitleMd + this.statusMd + this.descMd);
+        return this.noteTitleMd + this.statusMd + this.descMd;
     }
 }

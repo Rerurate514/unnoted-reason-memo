@@ -1,5 +1,5 @@
 import { StrictMode } from "react";
-import { ItemView, WorkspaceLeaf } from "obsidian";
+import { ItemView, WorkspaceLeaf, MarkdownRenderer } from "obsidian";
 import { Root, createRoot } from "react-dom/client";
 import { URMCardList } from "./components/urmCardList";
 import UnnotedReasonMemo from "main";
@@ -25,7 +25,7 @@ export class URMView extends ItemView {
 		this.root = createRoot(this.containerEl.children[1]);
 		this.root.render(
 			<StrictMode>
-				<URMCardList contents={this.plugin.settings.urmList} />
+				<URMCardList content={this.plugin} />
             </StrictMode>
 		);
 	}

@@ -1,22 +1,21 @@
 .urm-card{
     padding: 16px;
-    margin: auto;
-    margin-top: 16px;
+    margin-top: 8px;
 
     border-radius: 16px;
-    width: 256px;
-    height: 256px;
     font-weight: bold;
     border: 2px solid transparent;
-
-    background-color: var(--background-secondary-alt);
-    border: 1px solid var(--background-modifier-border);    
-
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
 }
 
 .center{
     text-align: center;
+}
+
+.urm-title{
+    border-bottom: 2px solid var(--text-accent);
+}
+
+.urm-list{
+    margin: 0;
+    padding: 0;
 }

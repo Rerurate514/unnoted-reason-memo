@@ -5,7 +5,7 @@ import { ViewRegister } from "./load/viewRegister";
 import { URMView, VIEW_TYPE_URM_DEFAULLT } from 'ui/ReactView';
 
 import { URMFileReader } from "logic/FileReader";
-import { URM } from 'models/URM';
+import { URMController } from 'models/URMController';
 import { FileConverter } from 'logic/FileConverter';
 
 
@@ -22,7 +22,7 @@ export default class UnnotedReasonMemo extends Plugin {
 		await this.loadSettings();
 		const fileReader = new URMFileReader(this);
 		const viewRegister = new ViewRegister(this);
-		const urm: URM = new URM(this, this.settings.urmList);
+		const urm: URMController = new URMController(this, this.settings.urmList);
 		const converter: FileConverter = new FileConverter(this)
 		
 		viewRegister.registerAllView();
