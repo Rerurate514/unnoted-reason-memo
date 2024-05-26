@@ -55,8 +55,6 @@ export default class UnnotedReasonMemo extends Plugin {
 		const statusBarItemEl = this.addStatusBarItem();
 		statusBarItemEl.setText('Status Bar Text');
 
-
-
 		this.addRibbonIcon("dice", "Activate view", () => { this.activateView(); });
 
 		this.addSettingTab(new SettingTab(this.app, this));

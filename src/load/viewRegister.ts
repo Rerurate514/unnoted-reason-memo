@@ -8,7 +8,7 @@ export class ViewRegister{
     async registerAllView(){
         this.plugin.registerView(
 			VIEW_TYPE_URM_DEFAULLT,
-			(leaf) => new URMView(leaf)
+			(leaf) => new URMView(leaf, this.plugin)
 		);
     }
 }
