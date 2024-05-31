@@ -10,8 +10,6 @@ import { FileConverter } from 'logic/FileConverter';
 
 
 export default class UnnotedReasonMemo extends Plugin {
-	viewRegister = new ViewRegister(this);
-
 	settings: UnnotedReasonMemoSettings;
 
 	constructor(app: App, manifest: PluginManifest) {
@@ -21,11 +19,15 @@ export default class UnnotedReasonMemo extends Plugin {
 	async onload() {
 		await this.loadSettings();
 		const fileReader = new URMFileReader(this);
-		const viewRegister = new ViewRegister(this);
+		const viewRegister = new ViewRegister(this.app, this);
 		const urm: URMController = new URMController(this, this.settings.urmList);
 		const converter: FileConverter = new FileConverter(this)
 		
 		viewRegister.registerAllView();
+
+		this.registerDomEvent(document, 'click', (evt: MouseEvent) => {
+			console.log('click', evt);
+		});
 
 		this.addCommand({
 			id: 'files-load',
@@ -58,11 +60,6 @@ export default class UnnotedReasonMemo extends Plugin {
 		this.addRibbonIcon("dice", "Activate view", () => { this.activateView(); });
 
 		this.addSettingTab(new SettingTab(this.app, this));
-
-
-		this.registerDomEvent(document, 'click', (evt: MouseEvent) => {
-			console.log('click', evt);
-		});
 
 		this.registerInterval(window.setInterval(() => console.log('setInterval'), 5 * 60 * 1000));
 	}

@@ -1,5 +1,5 @@
 import { StrictMode } from "react";
-import { ItemView, WorkspaceLeaf, MarkdownRenderer } from "obsidian";
+import { ItemView, WorkspaceLeaf, MarkdownRenderer, App } from "obsidian";
 import { Root, createRoot } from "react-dom/client";
 import { URMCardList } from "./components/urmCardList";
 import UnnotedReasonMemo from "main";
@@ -8,9 +8,15 @@ export const VIEW_TYPE_URM_DEFAULLT = "urm-default-view";
 
 export class URMView extends ItemView {
 	root: Root | null = null;
+	app : App;
 
-	constructor(leaf: WorkspaceLeaf, private plugin: UnnotedReasonMemo) {
+	constructor(
+		leaf: WorkspaceLeaf, 
+		app: App,
+		private plugin: UnnotedReasonMemo
+	) {
 		super(leaf);
+		app = this.app;
 	}
 
 	getViewType() {
@@ -25,7 +31,7 @@ export class URMView extends ItemView {
 		this.root = createRoot(this.containerEl.children[1]);
 		this.root.render(
 			<StrictMode>
-				<URMCardList content={this.plugin} />
+				<URMCardList app={this.app} plugin={this.plugin} />
             </StrictMode>
 		);
 	}
