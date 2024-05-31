@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { App, Component, MarkdownRenderer } from "obsidian";
+import { App, Component, MarkdownRenderer, htmlToMarkdown } from "obsidian";
 
 export const MarkdownCom = ({ plugin, contents, title, component }: {
     plugin: App, 
@@ -10,18 +10,18 @@ export const MarkdownCom = ({ plugin, contents, title, component }: {
     const [html, setHtml] = useState("");
 
     useEffect(() => {
-        let span: HTMLSpanElement = document.createElement("span");
-        span.innerHTML = '';
+        let span: HTMLElement = document.createElement("span");
+        span.empty();
 
         MarkdownRenderer.render(
             plugin,
             contents,
             span,
-            title,
+            "[[" + title + "]]",
             component
         );
 
-        setHtml(span.outerHTML);
+        setHtml(span.innerHTML);
     }, [plugin, contents, title, component]);
 
     return <div dangerouslySetInnerHTML={{ __html: html }} />;
