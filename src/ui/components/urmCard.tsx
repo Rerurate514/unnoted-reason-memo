@@ -10,7 +10,7 @@ export const URMCard = (props: {contents: URM}) => {
     card.className = "urm-card";
 
     function buttonTapped(){
-        
+        props.contents.plugin.openDescEditor(props.contents);
     }
 
     return <div className="urm-card-content markdown-preview-view">
@@ -24,11 +24,5 @@ export const URMCard = (props: {contents: URM}) => {
             type="button"
             onClick={buttonTapped}
         >Memoを編集</button>
-        {/* <input
-            type="text"
-            placeholder="編集"
-            aria-label="編集"
-            onChange={((e) => setDesc(e.target.value))}
-        ></input> */}
     </div>;
 }

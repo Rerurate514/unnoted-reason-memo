@@ -7,9 +7,12 @@ import { URMView, VIEW_TYPE_URM_DEFAULLT } from 'ui/ReactView';
 import { URMFileReader } from "logic/FileReader";
 import { URMController } from 'models/URMController';
 import { FileConverter } from 'logic/FileConverter';
+import { DescEditorModal } from "./modals/descEditorModal";
+import { URM } from 'models/URM';
 
 
 export default class UnnotedReasonMemo extends Plugin {
+	descEditor = new DescEditorModal(this.app);
 	settings: UnnotedReasonMemoSettings;
 
 	constructor(app: App, manifest: PluginManifest) {
@@ -22,7 +25,8 @@ export default class UnnotedReasonMemo extends Plugin {
 		const viewRegister = new ViewRegister(this.app, this);
 		const urm: URMController = new URMController(this, this.settings.urmList);
 		const converter: FileConverter = new FileConverter(this)
-		
+
+
 		viewRegister.registerAllView();
 
 		this.registerDomEvent(document, 'click', (evt: MouseEvent) => {
@@ -90,6 +94,15 @@ export default class UnnotedReasonMemo extends Plugin {
 
 	async saveSettings() {
 		await this.saveData(this.settings);
+	}
+
+	openDescEditor(urm: URM){
+		this.descEditor.setTitleStr(urm.noteTitle);
+		this.descEditor.open();
+	}
+
+	closeDescEditor(){
+		this.descEditor.close();
 	}
 }
 
