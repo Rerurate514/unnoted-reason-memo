@@ -15,8 +15,6 @@ export class URMController{
     addURM(file: TFile, urmCardValue: UrmCardValue): void{
         this.urmList[file.basename] = urmCardValue;
 
-        console.log(this.plugin.settings.urmList)
-
         this.save();
     }
 

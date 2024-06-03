@@ -12,12 +12,12 @@ import { URM } from 'models/URM';
 
 
 export default class UnnotedReasonMemo extends Plugin {
-	descEditor = new DescEditorModal(this.app);
+	descEditor = new DescEditorModal(this.app, this);
 	settings: UnnotedReasonMemoSettings;
 
 	constructor(app: App, manifest: PluginManifest) {
 		super(app, manifest);
-}
+	}
 
 	async onload() {
 		await this.loadSettings();
@@ -84,6 +84,7 @@ export default class UnnotedReasonMemo extends Plugin {
 	}
 
 	async saveSettings() {
+		console.log(this.settings.urmList["sampleカード"])
 		await this.saveData(this.settings);
 	}
 
