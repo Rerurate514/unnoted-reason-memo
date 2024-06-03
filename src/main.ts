@@ -34,25 +34,16 @@ export default class UnnotedReasonMemo extends Plugin {
 		});
 
 		this.addCommand({
-			id: 'files-load',
-			name: 'ファイルをロードする',
+			id: 'files-update',
+			name: 'ファイルを更新する',
 			callback: async () => {
-				let files = await fileReader.readMatchFiles();
-				for(let file of files){
-					urm.add(file, await converter.convertURMCardFromTfile(file));
-				}
-				urm.save();
-			}
-		});
+				urm.load(
+					this.settings.urmList,
+				);
 
-		this.addCommand({
-			id: 'files-reset',
-			name: 'ファイルをリセットする',
-			callback: async () => {
-				urm.reset();
 				let files = await fileReader.readMatchFiles();
 				for(let file of files){
-					urm.add(file, await converter.convertURMCardFromTfile(file));
+					urm.addURM(file, await converter.convertURMCardFromTfile(file));
 				}
 				urm.save();
 			}

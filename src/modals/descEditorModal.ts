@@ -23,6 +23,8 @@ export class DescEditorModal extends Modal {
 		const {contentEl} = this;
 		contentEl.empty();
 	}
+
+    
 }
 
 class ElementBuilder{
