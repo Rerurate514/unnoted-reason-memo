@@ -66,6 +66,7 @@ class ElementBuilder{
             let plugin: UnnotedReasonMemo = this.plugin;
             plugin.settings.urmList[this.titleStr].desc = this.getTextAreaValue();
             await plugin.saveSettings();
+            plugin.closeDescEditor();
         }.bind(this), false);
 
         container.appendChild(button);
